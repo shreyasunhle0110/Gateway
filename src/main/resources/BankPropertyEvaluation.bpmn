@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_03rwbzn" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.20.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.4.0">
+  <bpmn:process id="BankPropertyEvalution" name="Bank Property Evaluation" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0hq7qus</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0hq7qus" sourceRef="StartEvent_1" targetRef="Activity_031nq4h" />
+    <bpmn:serviceTask id="Activity_031nq4h" name="Save property details data">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="savePropertyDetails" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=ParentRequest.initiatorName" target="propertyData.initiatorName" />
+          <zeebe:input source="=ParentRequest.businessUnit" target="propertyData.businessUnit" />
+          <zeebe:input source="=ParentRequest.contactNumber" target="propertyData.contactNumber" />
+          <zeebe:input source="=ParentRequest.facilityType" target="propertyData.facilityType" />
+          <zeebe:input source="=ParentRequest.facilityCategory" target="propertyData.facilityCategory" />
+          <zeebe:input source="=ParentRequest.facilityPurpose" target="propertyData.facilityPurpose" />
+          <zeebe:input source="=ParentRequest.facilityTerms" target="propertyData.facilityTerms" />
+          <zeebe:input source="=ParentRequest.ccy" target="propertyData.ccy" />
+          <zeebe:input source="=ParentRequest.amount" target="propertyData.amount" />
+          <zeebe:input source="=ParentRequest.isHousingLoan" target="propertyData.isHousingLoan" />
+          <zeebe:input source="=ParentRequest.fosReference" target="propertyData.fosReference" />
+          <zeebe:input source="=ParentRequest.typeOfEvaluation" target="propertyData.typeOfEvaluation" />
+          <zeebe:input source="=ParentRequest.mainBorrower" target="mainBorrower" />
+          <zeebe:input source="=ParentRequest.jointBorrowers" target="jointBorrowers" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0hq7qus</bpmn:incoming>
+      <bpmn:outgoing>Flow_02jrkev</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_02jrkev" sourceRef="Activity_031nq4h" targetRef="Activity_03o4d5u" />
+    <bpmn:serviceTask id="Activity_03o4d5u" name="save comments data">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="saveComments" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=ParentRequest.comment" target="comment" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_02jrkev</bpmn:incoming>
+      <bpmn:outgoing>Flow_0j61hp1</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0j61hp1" sourceRef="Activity_03o4d5u" targetRef="Activity_0y3i67v" />
+    <bpmn:serviceTask id="Activity_0y3i67v" name="save file upload data">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="saveUploadedFile" />
+        <zeebe:ioMapping>
+          <zeebe:input source="=ParentRequest.uploadedFile" target="uploadFileRequest.fileName" />
+          <zeebe:input source="=ParentRequest.uploadedFileType" target="uploadFileRequest.fileType" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0j61hp1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1it45rw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0xizt73">
+      <bpmn:incoming>Flow_1it45rw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1it45rw" sourceRef="Activity_0y3i67v" targetRef="Event_0xizt73" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="BankPropertyEvalution">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rdi6ds_di" bpmnElement="Activity_031nq4h">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1f19lzr_di" bpmnElement="Activity_03o4d5u">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0g6c3sh_di" bpmnElement="Activity_0y3i67v">
+        <dc:Bounds x="590" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xizt73_di" bpmnElement="Event_0xizt73">
+        <dc:Bounds x="752" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0hq7qus_di" bpmnElement="Flow_0hq7qus">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02jrkev_di" bpmnElement="Flow_02jrkev">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0j61hp1_di" bpmnElement="Flow_0j61hp1">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="590" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1it45rw_di" bpmnElement="Flow_1it45rw">
+        <di:waypoint x="690" y="117" />
+        <di:waypoint x="752" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
